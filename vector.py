@@ -1,6 +1,14 @@
+"""
+For Vector operations
+"""
+
+from math import sqrt
 from numbers import Number
 
 class Vector(object):
+    """
+    Creates vector instances and allows for operations
+    """
     def __init__(self, coordinates):
         self.coordinates = tuple(coordinates)
 
@@ -12,30 +20,35 @@ class Vector(object):
         o_coor = other.coordinates
         if len(s_coor) != len(o_coor):
             raise ValueError("Different length coordinates")
-        return tuple(sum(x) for x in zip(s_coor, o_coor))
+        result = [sum(x) for x in zip(s_coor, o_coor)]
+        return Vector(result)
 
     def __sub__(self, other):
         s_coor = self.coordinates
         o_coor = other.coordinates
         if len(s_coor) != len(o_coor):
             raise ValueError("Different length coordinates")
-        # to_iterate = len(s_coor)
-        # result = []
-        # for ind in range(to_iterate):
-        #     result.append(s_coor[ind] - o_coor[ind])
-        # return tuple(result)
         result = [x - y for x, y in zip(s_coor, o_coor)]
         return Vector(result)
 
-
     def __mul__(self, scalar):
-        s_coor = self.coordinates
         if not isinstance(scalar, Number):
             raise ValueError("Scalar needs to be a scalar")
-        # to_iterate = len(s_coor)
-        # result = []
-        # for ind in range(to_iterate):
-        #     result.append(scalar * s_coor[ind])
-        # return tuple(result)
+        s_coor = self.coordinates
         result = [scalar * x for x in s_coor]
         return Vector(result)
+
+    def _square(self, num):
+        return pow(num, 2)
+
+    def magnitude(self):
+        """Return magnitude of vector"""
+        return sqrt(sum(map(self._square, self.coordinates)))
+
+    def normalize(self):
+        """Return unit vector of vector"""
+        mag = self.magnitude()
+        try:
+            return self * (1. / mag)
+        except ZeroDivisionError:
+            raise Exception("Cannot divide by zero")

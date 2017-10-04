@@ -57,3 +57,57 @@ def __mul__(self, scalar):
     result = [scalar * x for x in s_coor]
     return Vector(result)
 ```
+
+## Magnitude and Direction
+
+### Magnitude
+
+- Magnitude is how much movement a vector quantifies
+- Direction refers to where the v's movement is pointed
+
+- Magnitude is length of vector
+    - use the pythagorean theorum to get the hypotenuse
+    - || **v** || = \sqrt{v_x^2 + v_y^2}
+    - double bars denote magnitude of vector **v**
+
+### Unit Vectors
+
+- Normalization: process of finding a unit vector in the same direction as a given vector
+    - Step 1: find the vector's mag
+    - Step 2: scalar multiplication: (1 / || **v** ||) * **v** to get the unit vector in the vector's direction
+
+- Unit vector: a vector of magnitude 1
+
+### Direction
+
+- A vector's direction can be represented by a unit vector
+
+### Zero Vector
+
+- If all vector coordinates are zero, that there is a zero vector, noted as a zero with an arrow over top. Or **0** for here and now.
+- A vector indicating no change, with no normalization and no direction, with a magnitude of zero.
+
+### Coding Magnitude and Direction
+
+```
+from math import sqrt
+
+def magnitude(self):
+    """Return magnitude of vector"""
+    # Your LISP is showing...
+    return sqrt(sum(map(self._square, self.coordinates)))
+
+def _square(self, num):
+    return pow(num, 2)
+```
+
+```
+# def direction(self):
+def normalize(self):
+    """Return unit vector of vector"""
+    mag = self.magnitude()
+    try:
+        return self * (1. / mag)
+    except ZeroDivisionError:
+        raise Exception("no zero divide to get nrml")
+```
