@@ -111,3 +111,56 @@ def normalize(self):
     except ZeroDivisionError:
         raise Exception("no zero divide to get nrml")
 ```
+
+## Inner Product, or Dot Product
+
+**v** dot **w** = ||**v**|| * ||**w**|| * cos(theta)
+
+magnitude of v times magnitude of w times cosine of angle between vectors v and w
+
+Returns a number
+
+theta = arccos(**v** dot **w** / ||**v**|| * ||**w**||)
+
+or
+
+theta = arccos((1 / ||**v**||)**v** * (1/||**w**||)**w**)
+
+**v** dot **w** = (v1 * w1) + (v2 * w2) + ... (vn * wn)
+
+#### Cauchy-Schwarz Inequality
+
+**v** dot **w** <= abs(||**v**|| * ||**w**||)
+
+cosine(zero) = 1
+
+cosine(180 degree or pi radians) = -1
+
+### Coding the Dot Product and Angle
+
+```
+def dot_product(self, other):
+    """Return dot product of two vectors"""
+    if not isinstance(other, Vector):
+        return Exception("Not a vector")
+
+    s_coor = self.coordinates
+    o_coor = other.coordinates
+    results = [x * y for x, y in zip(s_coor, o_coor)]
+    return sum(results)
+```
+
+```
+def angle_with(self, other, in_radians=True):
+    """Returns angle between two vectors, default in radians, passed falsy for third param for degrees"""
+    if not isinstance(other, Vector):
+        return Exception("Not a vector")
+    dot = self.dot_product(other)
+    mag_product = self.magnitude() * other.magnitude()
+    try:
+        angle_val = acos(float(dot) / mag_product)
+        return angle_val if in_radians else degrees(angle_val)
+    except ZeroDivisionError:
+        raise Exception("Cannot divide by zero")
+```
+

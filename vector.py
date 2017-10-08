@@ -2,6 +2,8 @@
 For Vector operations
 """
 
+from math import acos
+from math import degrees
 from math import sqrt
 from numbers import Number
 
@@ -50,5 +52,28 @@ class Vector(object):
         mag = self.magnitude()
         try:
             return self * (1. / mag)
+        except ZeroDivisionError:
+            raise Exception("Cannot divide by zero")
+
+    def dot_product(self, other):
+        """Return dot product of two vectors"""
+        if not isinstance(other, Vector):
+            return Exception("Not a vector")
+        s_coor = self.coordinates
+        o_coor = other.coordinates
+        result = [x * y for x, y in zip(s_coor, o_coor)]
+        return sum(result)
+
+    def angle_with(self, other, in_degrees=False):
+        """Returns angle between two vectors, default in radians"""
+        if not isinstance(other, Vector):
+            return Exception("Not a vector")
+        dot = self.dot_product(other)
+        mag_product = self.magnitude() * other.magnitude()
+        try:
+            angle_val = acos(float(dot) / mag_product)
+            if in_degrees:
+                return degrees(angle_val)
+            return angle_val
         except ZeroDivisionError:
             raise Exception("Cannot divide by zero")
