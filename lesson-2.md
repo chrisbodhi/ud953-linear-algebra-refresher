@@ -164,3 +164,60 @@ def angle_with(self, other, in_radians=True):
         raise Exception("Cannot divide by zero")
 ```
 
+## Parallel and Orthogonal Vectors
+
+### Parallel Vectors
+
+Two vectors are parallel if one is a scalar multiple of the other.
+
+All Parallel
+- **v**
+- 2**v**
+- 0.5**v**
+- -**v**
+- **0**
+- 1**v**
+
+They can point in opposite directions.
+
+### Orthogonal Vectors
+
+Two vectors are orthogonal if their dot product is zero.
+
+**v** dot **w** = 0
+
+makes them orthogonal, _if_ neither of them are zero vectors.
+
+_Interesting_: zero vector is parallel and orthogonal to all other vectors
+
+The only vector orthogonal to itself.
+
+**v** dot **v** = 0
+...then || **v** || ^ 2 = 0
+...then **v** = 0
+
+### Checking Parallel, Orthogonal
+
+#### Parallels
+```
+def is_zero(self):
+    """Returns True if zero vector"""
+    coord_set = set(tuple(self.coordinates))
+    return len(coord_set) == 1 and coord_set.pop() == 0
+
+def is_parallel(self, other):
+    """Returns True if self and other are scalar multiples"""
+    if self.is_zero() or other.is_zero():
+        return True
+    s_coor = self.coordinates
+    o_coor = other.coordinates
+    result = [x / y for x, y in zip(s_coor, o_coor)]
+    return len(set(result)) == 1
+```
+#### Orthogonal
+
+```
+def is_orthogonal(self, other):
+    """Returns True if self and other have a zero dot product"""
+    return self.dot_product(other) == 0
+```

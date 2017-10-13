@@ -4,15 +4,21 @@ For Vector operations
 
 from math import acos
 from math import degrees
+from math import pi
 from math import sqrt
+from decimal import Decimal, getcontext
 from numbers import Number
+
+getcontext().prec = 30
+
 
 class Vector(object):
     """
     Creates vector instances and allows for operations
     """
     def __init__(self, coordinates):
-        self.coordinates = tuple(coordinates)
+        self.coordinates = tuple([Decimal(str(x)) for x in coordinates])
+        self.dimension = len(self.coordinates)
 
     def __str__(self):
         return str(self.coordinates)
@@ -51,7 +57,7 @@ class Vector(object):
         """Return unit vector of vector"""
         mag = self.magnitude()
         try:
-            return self * (1. / mag)
+            return self * (Decimal('1.0') / mag)
         except ZeroDivisionError:
             raise Exception("Cannot divide by zero")
 
@@ -77,3 +83,20 @@ class Vector(object):
             return angle_val
         except ZeroDivisionError:
             raise Exception("Cannot divide by zero")
+
+    def is_zero(self):
+        """Returns True if zero vector"""
+        coord_set = set(tuple(self.coordinates))
+        return len(coord_set) == 1 and coord_set.pop() == 0
+
+    def is_parallel(self, other):
+        """Returns True if self and other are scalar multiples"""
+        return (self.is_zero() or
+                other.is_zero() or
+                self.angle_with(other) == 0 or
+                self.angle_with(other) == pi)
+
+
+    def is_orthogonal(self, other):
+        """Returns True if self and other have a zero dot product"""
+        return self.dot_product(other) == 0
