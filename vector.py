@@ -57,7 +57,7 @@ class Vector(object):
         """Return unit vector of vector"""
         mag = self.magnitude()
         try:
-            return self * (Decimal('1.0') / mag)
+            return self * Decimal(1.0 / mag)
         except ZeroDivisionError:
             raise Exception("Cannot divide by zero")
 
@@ -100,3 +100,16 @@ class Vector(object):
     def is_orthogonal(self, other):
         """Returns True if self and other have a zero dot product"""
         return self.dot_product(other) == 0
+
+    def parallel(self, basis):
+        """Returns component parallel"""
+        unit = basis.normalize() # will fail if basis vector is zero
+        return unit * self.dot_product(unit)
+
+    def ortho(self, basis):
+        """Returns component perpendicular"""
+        return self - self.parallel(basis)
+
+    def components(self, basis):
+        """Returns a dictionary of vector-parallel and vector-orthogonal"""
+        return {'parallel': self.parallel(basis), 'ortho': self.ortho(basis)}

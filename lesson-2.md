@@ -221,3 +221,53 @@ def is_orthogonal(self, other):
     """Returns True if self and other have a zero dot product"""
     return self.dot_product(other) == 0
 ```
+
+## Projecting Vectors
+
+**Orthogonality**: tool for decomposing objects into combinations of simpler objects in a structured way
+
+Imagine **b** as a basis vector, emanating from the origin, on a line _l_.
+
+We have another vector, **v**, also emanating from the origin. Now, imagine rotating our perspective until **v** is overlayed onto **b**. Unless they're parallel to each other, **v** will now appear to be shorter than **b**. The shorter arrow is the projection of **v** onto **b**.
+
+Noted as proj sub **b**(**v**) or **v** ^ || [vector with two little bars next to it]
+
+OR.
+
+Draw a right triangle.
+
+**b** and **v** both from the origin, hypo is **v**. At the end of **v**, drop a leg to **b**, perpendicular to it. The leg from the origin to the dropped leg (along **b**) is the _projection_.
+
+That dropped leg is the component of **v** orthogonal to **b**, with is denoted as **v** with an upside down _t_, called `v perp`.
+
+Which means!
+
+**v** = **v** ^ || + **v** ^ _upside down `t`_
+
+v equals the parallel plus the perp
+
+### Calculating
+
+_assuming theta less than or equal to 90 deg_
+
+If theta is greater than 90 deg, we get negative signs, but they end up cancelling out.
+
+**v** ^ || = (**v** dot unit vector of **b**) * unit vector of **b**
+
+length of v parallel = magnitude(v) * cos(theta)
+
+cos(theta) = (**v** dot **b**) / mag(v) * mag(b)
+
+length of v parallel = mag(v) * (**v** dot **b**) / mag(v) * mag(b)
+
+length of v parallel = **v** dot u sub b
+
+u sub b is the unit vector in the direction of b, ie the normalization
+
+v parallel = u sub b * (**v** dot u sub b)
+
+v upside down t = **v** ortho **b**
+
+u sub b = **b** / mag(**b**)
+
+proj b of v = v parallel = u sub b * (**v** dot u sub b)
