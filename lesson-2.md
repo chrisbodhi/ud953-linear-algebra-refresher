@@ -271,3 +271,12 @@ v upside down t = **v** ortho **b**
 u sub b = **b** / mag(**b**)
 
 proj b of v = v parallel = u sub b * (**v** dot u sub b)
+
+## Cross Products
+
+Check for cross-product: either input vector dot-product'd with the cross-product will output zero
+
+to get area of parallelogram spanned by **v** and **w** - sqrt(sum(map(sq, v.cross_product(w)))) -- or the magnitude of the cross-product!
+
+to get the triangle, halve the parallelogram
+

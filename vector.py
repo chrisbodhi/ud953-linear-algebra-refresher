@@ -113,3 +113,31 @@ class Vector(object):
     def components(self, basis):
         """Returns a dictionary of vector-parallel and vector-orthogonal"""
         return {'parallel': self.parallel(basis), 'ortho': self.ortho(basis)}
+
+    def cross_product(self, other):
+        """
+        (y1 z2) - (y2 z1)
+        - ((x1 z2) - (x2 z1))
+        (x1 y2) - (x2 y1)
+        """
+        if (
+                self.dimension is not 3 or
+                other.dimension is not 3
+            ):
+            raise Exception("Wrong vector length")
+
+        x1, y1, z1 = self.coordinates
+        x2, y2, z2 = other.coordinates
+
+        first = (y1 * z2) - (y2 * z1)
+        second = -((x1 * z2) - (x2 * z1))
+        third = (x1 * y2) - (x2 * y1)
+        return Vector([first, second, third])
+
+    def parallelogram(self, other):
+        """Returns the area of the parallelogran spanned by the two input vectors"""
+        return self.cross_product(other).magnitude()
+
+    def triangle(self, other):
+        """Returns the area of the triangle spanned by the two input vectors"""
+        return self.parallelogram(other) / Decimal(2.0)
